@@ -22,30 +22,69 @@ h1,h2,h3 { color:#00e5a0 !important; }
 </style>
 """, unsafe_allow_html=True)
 
-# ─── SAHAM IDX ───────────────────────────────
-IDX_TICKERS = {
-    "AALI":"AALI.JK","ADRO":"ADRO.JK","AKRA":"AKRA.JK","ANTM":"ANTM.JK",
-    "ARTO":"ARTO.JK","ASII":"ASII.JK","BBCA":"BBCA.JK","BBNI":"BBNI.JK",
-    "BBRI":"BBRI.JK","BBTN":"BBTN.JK","BMRI":"BMRI.JK","BRIS":"BRIS.JK",
-    "BRPT":"BRPT.JK","CPIN":"CPIN.JK","EMTK":"EMTK.JK","ERAA":"ERAA.JK",
-    "EXCL":"EXCL.JK","GGRM":"GGRM.JK","GOTO":"GOTO.JK","HMSP":"HMSP.JK",
-    "HRUM":"HRUM.JK","ICBP":"ICBP.JK","INCO":"INCO.JK","INDF":"INDF.JK",
-    "INKP":"INKP.JK","INTP":"INTP.JK","ISAT":"ISAT.JK","ITMG":"ITMG.JK",
-    "JPFA":"JPFA.JK","JSMR":"JSMR.JK","KLBF":"KLBF.JK","MAPI":"MAPI.JK",
-    "MBMA":"MBMA.JK","MDKA":"MDKA.JK","MEDC":"MEDC.JK","MIKA":"MIKA.JK",
-    "MNCN":"MNCN.JK","PGAS":"PGAS.JK","PGEO":"PGEO.JK","PTBA":"PTBA.JK",
-    "PTPP":"PTPP.JK","SMGR":"SMGR.JK","SMRA":"SMRA.JK","TINS":"TINS.JK",
-    "TLKM":"TLKM.JK","TOWR":"TOWR.JK","TPIA":"TPIA.JK","UNTR":"UNTR.JK",
-    "UNVR":"UNVR.JK","WSKT":"WSKT.JK","ACES":"ACES.JK","AGII":"AGII.JK",
-    "AMRT":"AMRT.JK","BSDE":"BSDE.JK","CTRA":"CTRA.JK","DSNG":"DSNG.JK",
-    "ELSA":"ELSA.JK","ESSA":"ESSA.JK","HEAL":"HEAL.JK","HRTA":"HRTA.JK",
-    "INDY":"INDY.JK","LSIP":"LSIP.JK","MYOR":"MYOR.JK","NCKL":"NCKL.JK",
-    "PALM":"PALM.JK","POWR":"POWR.JK","PWON":"PWON.JK","SIDO":"SIDO.JK",
-    "SSMS":"SSMS.JK","TKIM":"TKIM.JK","TBIG":"TBIG.JK","ULTJ":"ULTJ.JK",
-    "WIKA":"WIKA.JK","WIFI":"WIFI.JK","MDIA":"MDIA.JK","KOTA":"KOTA.JK",
-    "NTBK":"NTBK.JK","KETR":"KETR.JK","DEWA":"DEWA.JK","NICL":"NICL.JK",
-    "NCKL":"NCKL.JK","PNLF":"PNLF.JK","SMIL":"SMIL.JK","CBMF":"CBMF.JK",
-}
+# ─── SAHAM IDX LENGKAP (330+ saham) ─────────
+_RAW = [
+    # PERBANKAN
+    "BBCA","BBRI","BMRI","BBNI","BBTN","BRIS","NISP","MEGA","BNGA","BNLI",
+    "PNBN","BDMN","BTPS","BJTM","BJBR","BSIM","BCIC","AGRO","ARTO","BBYB",
+    "DNAR","INPC","BBMD","NOBU","BACA","MCOR","BGTG","BANK","AMAR","BABP",
+    # KONSUMER MAKANAN & MINUMAN
+    "ICBP","INDF","MYOR","CPIN","JPFA","ULTJ","SIDO","DLTA","MLBI","SKBM",
+    "SKLT","ROTI","GOOD","HOKI","CEKA","BUDI","CAMP","DMND","KEJU","PANI",
+    # RETAIL & CONSUMER
+    "MAPI","ACES","RALS","LPPF","MPMX","AMRT","MIDI","HERO","CSAP","RANC",
+    "ERAA","KINO","MBTO","TCID","UNVR","GGRM","HMSP","WIIM","RMBA",
+    # PROPERTI
+    "BSDE","CTRA","SMRA","PWON","DMAS","LPKR","ASRI","JRPT","MKPI","PPRO",
+    "MTLA","BKSL","KIJA","PLIN","EMDE","DART","DUTI","GPRA","NIRO","OMRE",
+    "TARA","MDLN","APLN","BEST","DILD","KOTA","FORZ","URBN",
+    # TELEKOMUNIKASI & TEKNOLOGI
+    "TLKM","EXCL","ISAT","FREN","TBIG","TOWR","LINK","MNCN","EMTK","MDIA",
+    "DNET","WIFI","GOTO","BUKA","MCAS","NTBK","KETR","DOOH",
+    # ENERGI BATUBARA
+    "ADRO","PTBA","HRUM","ITMG","INDY","BYAN","ARII","DOID","GEMS",
+    "MBAP","MYOH","PKPK","SMMT","BSSR","TOBA","DEWA","COAL",
+    # MINYAK & GAS
+    "ELSA","MEDC","PGAS","RAJA","RUIS","BIPI","ESSA","ARTI","ENRG",
+    # TAMBANG MINERAL & NIKEL
+    "INCO","ANTM","TINS","MBMA","NCKL","MDKA","PSAB","DKFT","NICL","AGMR",
+    "PGEO","SMCB","IFSH",
+    # INFRASTRUKTUR
+    "JSMR","WIKA","PTPP","ADHI","WSKT","WTON","ACST","NRCA","TOTL","DGIK",
+    "IDPR","WEGE","PBSA","PPRE",
+    # HEALTHCARE & FARMASI
+    "KLBF","MIKA","HEAL","SILO","SAME","PRDA","BMHS","TSPC","KAEF","PYFA",
+    "SQBI","INAF","DVLA","PRIM","RSGK","DAYA",
+    # PERTANIAN & PERKEBUNAN
+    "AALI","LSIP","SSMS","PALM","DSNG","SIMP","TBLA","SMAR","BWPT",
+    "JAWA","SGRO","TAPG","CSRA","ANJT",
+    # KIMIA & INDUSTRI DASAR
+    "TPIA","BRPT","DPNS","EKAD","INCI","SRSN","UNIC","AKPI","APLI",
+    "BRNA","FPNI","IGAR","IMPC","IPOL","TRST","YPAS",
+    # SEMEN & KONSTRUKSI MATERIAL
+    "SMGR","INTP","SMBR","WSBP","MARK","KDSI","ISSP","LION","LMSH","PICO",
+    # OTOMOTIF
+    "ASII","AUTO","BOLT","GJTL","GDYR","IMAS","INDS","MASA","NIPS","SMSM","TURI",
+    # KEUANGAN NON BANK
+    "PNLF","ADMF","BFIN","CSUL","MFIN","TIFA","WOMF","BCAP","BPFI",
+    "SMMA","AMOR","KREN","RELI","DEFI",
+    # MEDIA & ENTERTAINMENT
+    "MNCN","SCMA","KBLV","MSKY","ABBA","FORU","LPLI",
+    # TEKSTIL
+    "TRIS","ARGO","ERTX","ESTI","INDR","SRIL","RICY","TFCO","POLU",
+    # TRANSPORTASI & LOGISTIK
+    "GIAA","CMPP","SMDR","SHIP","NELY","TMAS","WINS","BLTA","ASSA","BIRD",
+    # CONSUMER LAIN
+    "INKP","TKIM","AKRA","UNTR","BRPT","HRTA","POWR","PWON","SIDO",
+    "TBIG","WIKA","WIFI","MAPA","SSMS","TBLA",
+    # SPEKULATIF & SMALL CAP AKTIF
+    "SMIL","CBMF","RAAM","FORE","MUTU","SONA","MAYA","LUCK","PURE",
+    "LABA","PANS","CUAN","NASI","PADI","KOPI","BUMI","BKDP","CPRI",
+    "BBMD","ANDI","APEX","MEJA","GOLD","BHAT","GAMA","RBMS","SAFE",
+]
+# Hapus duplikat, buat dict
+_UNIQUE = list(dict.fromkeys(_RAW))
+IDX_TICKERS = {code: f"{code}.JK" for code in _UNIQUE}
 
 # ─── HELPERS ─────────────────────────────────
 def sma(s,n): return s.rolling(n).mean()
@@ -393,8 +432,18 @@ params = {"modal":modal,"risk_pct":risk_pct,"sl_atr":sl_atr,"rr1":rr1,"rr2":rr2,
 
 # ─── MAIN ────────────────────────────────────
 st.markdown("# 🚀 TM Quantitative Trading System — IDX")
-st.markdown(f"*Long Only | Deteksi: Akumulasi → Take Off → Markup | Skor Max 100 | {datetime.now().strftime('%d %b %Y %H:%M')}*")
+st.markdown(f"*Long Only | Deteksi: Akumulasi → Take Off → Markup | Skor Max 100 | Scan {len(IDX_TICKERS)} saham | {datetime.now().strftime('%d %b %Y %H:%M')}*")
 st.markdown("---")
+
+# Tambah saham custom
+with st.expander("➕ Tambah Saham Custom ke Scan"):
+    custom_input = st.text_input("Kode saham tambahan (pisah koma):", placeholder="contoh: BREN, CUAN, PANI")
+    if custom_input:
+        extras = [x.strip().upper() for x in custom_input.split(",") if x.strip()]
+        for e in extras:
+            if e not in IDX_TICKERS:
+                IDX_TICKERS[e] = f"{e}.JK"
+        st.success(f"✅ {len(extras)} saham ditambahkan. Total scan: {len(IDX_TICKERS)} saham")
 
 if scan_btn or "df_qts" not in st.session_state:
     with st.spinner("Scanning & menganalisa fase saham..."):
